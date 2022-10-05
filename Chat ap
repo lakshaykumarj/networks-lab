@@ -1,0 +1,267 @@
+import java.io.IOException;
+import java.util.*;
+import java.io.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+//import java.io.Serializable;
+import java.net.*;
+class window extends JFrame implements ActionListener
+{
+  BufferedReader console,get;
+  ServerSocket server; Socket client,socket;
+  DataInputStream in;
+  DataOutputStream out;
+  InputStream stream;
+	DataInputStream input_String;	
+	private Container c;
+	private JLabel title;
+	private JTextField data;
+	private JButton  opt1,send,ack;
+	private JTextArea content;
+	String text,host,x;String string;
+    public window()
+    {
+	setTitle("Chat Application");
+	setBounds(300,90,500,600);
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+	setResizable(true);
+	setVisible(true);
+	c =getContentPane();
+	c.setLayout(null);
+	c.setVisible(true);
+
+        title = new JLabel("SERVER");
+        title.setFont(new Font("Arial", Font.PLAIN, 20));
+        title.setSize(300,30);
+        title.setLocation(300, 30);
+        title.setVisible(true);
+        c.add(title);
+	
+        content = new JTextArea();
+        content.setFont(new Font("Arial", Font.PLAIN, 15));
+        content.setSize(1000,600);
+        content.setLocation(200,100);
+        content.setLineWrap(true);
+        content.setEditable(false);
+        c.add(content);
+
+    opt1= new JButton("Click to activate");
+    opt1.setFont(new Font("Arial", Font.PLAIN, 15));
+    opt1.setSize(240, 20);
+    opt1.setLocation(700,30);
+    opt1.addActionListener(this);
+    opt1.setVisible(true);
+    c.add(opt1);
+
+    
+   send= new JButton("SEND");
+    send.setFont(new Font("Arial", Font.PLAIN, 15));
+    send.setSize(180, 20);
+    send.setLocation(1000 , 30);
+    send.addActionListener(this);
+    send.setVisible(true);
+    c.add(send);		
+
+    ack= new JButton("RECIEVE");
+    ack.setFont(new Font("Arial", Font.PLAIN, 15));
+    ack.setSize(180, 20);
+    ack.setLocation(1200 , 30);
+    ack.addActionListener(this);
+    ack.setVisible(true);
+    c.add(ack);		
+
+    data = new JTextField("Enter the message here");
+    data.setFont(new Font("Arial", Font.PLAIN, 20));
+    data.setSize(200,20);
+    data.setLocation(500,75);
+    data.setVisible(true);
+    c.add(data);
+    text = "Connection made\n";
+    text = "waiting\n";
+    x =" ";
+    }
+public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == opt1)
+			{
+			text = "waiting\n";
+				try{
+       				  server =new ServerSocket(1234);
+                System.out.println("Waiting");
+        				client = server.accept();
+                System.out.println("connected");
+        			   console = new BufferedReader(new InputStreamReader(System.in));
+        				 stream = client.getInputStream();
+        				 input_String = new DataInputStream(stream);
+	  			       out=new DataOutputStream(client.getOutputStream());	}catch(Exception ex){System.out.println("Failed:");}		
+                    }
+		
+     else if(e.getSource() == send)
+       {	
+       try{	  
+        text = text + "\nServer:" + data.getText();
+        content.setText(null);content.setText(text);	    
+	      String text1 = data.getText(); 
+        out.writeUTF(text1);}catch(Exception ex){System.out.println("Error");}
+       }
+    else if(e.getSource() == ack)
+       {
+        try{
+          string = (String)input_String.readUTF(); 
+          text = text + "\nClient : " + string;
+          content.setText(null);content.setText(text);
+        }catch(Exception ex){System.out.println("Error");}
+       }   
+   } 
+}    
+public class chats
+{
+	public static void main(String args[]) throws Exception
+	{
+		window  x = new window();
+	}
+}
+
+
+import java.io.IOException;
+import java.util.*;
+import java.io.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.Serializable;
+import java.net.*;
+class window extends JFrame implements ActionListener
+{
+  BufferedReader console,get;
+  ServerSocket server; Socket client,socket;
+  DataInputStream in;
+  DataOutputStream out;
+  InputStream stream;
+	DataInputStream input_String;	
+	private Container c;
+	private JLabel title;
+	private JTextField ip_address,data;
+	private JButton opt2, send,ip,recieve;
+	private JTextArea content;
+	String text,host,x;
+    public window()
+    {
+	setTitle("Chat Application-CLIENT");
+	setBounds(300,90,500,600);
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+	setResizable(true);
+	setVisible(true);
+	c =getContentPane();
+	c.setLayout(null);
+	c.setVisible(true);
+
+        title = new JLabel("CLIENT");
+        title.setFont(new Font("Arial", Font.PLAIN, 20));
+        title.setSize(300,30);
+        title.setLocation(300, 30);
+        title.setVisible(true);
+        c.add(title);
+	
+        content = new JTextArea();
+        content.setFont(new Font("Arial", Font.PLAIN, 15));
+        content.setSize(1000,600);
+        content.setLocation(200,100);
+        content.setLineWrap(true);
+        content.setEditable(false);
+        c.add(content);
+
+    opt2= new JButton("Activate");
+    opt2.setFont(new Font("Arial", Font.PLAIN, 15));
+    opt2.setSize(180, 20);
+    opt2.setLocation(900 , 30);
+    opt2.addActionListener(this);
+    opt2.setVisible(true);
+    c.add(opt2);	
+
+     ip= new JButton("Submit ip");
+    ip.setFont(new Font("Arial", Font.PLAIN, 15));
+    ip.setSize(180, 20);
+    ip.setLocation(1100 , 30);
+    ip.addActionListener(this);
+    ip.setVisible(true);
+    c.add(ip);
+   
+   send= new JButton("SEND");
+    send.setFont(new Font("Arial", Font.PLAIN, 15));
+    send.setSize(180, 20);
+    send.setLocation(1300 , 30);
+    send.addActionListener(this);
+    send.setVisible(true);
+    c.add(send);	
+    
+    recieve= new JButton("RECIEVE");
+    recieve.setFont(new Font("Arial", Font.PLAIN, 15));
+    recieve.setSize(180, 20);
+    recieve.setLocation(1300 , 70);
+    recieve.addActionListener(this);
+    recieve.setVisible(true);
+    c.add(recieve);	
+
+    ip_address = new JTextField("enter ip if client");
+    ip_address.setFont(new Font("Arial", Font.PLAIN, 20));
+    ip_address.setSize(200,20);
+    ip_address.setLocation(400,75);
+    ip_address.setVisible(true);
+    c.add(ip_address);
+
+    data = new JTextField("Enter the message here");
+    data.setFont(new Font("Arial", Font.PLAIN, 20));
+    data.setSize(200,20);
+    data.setLocation(700,75);
+    data.setVisible(true);
+    c.add(data);
+    text = "Connection made\n";
+    text = "waiting\n";
+    x =" ";
+    }
+public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == opt2)
+		{		
+      System.out.println("Entered");
+        try{
+        socket = new Socket(host,1234);  
+        System.out.println("Established");
+      in = new DataInputStream(socket.getInputStream());
+      out = new DataOutputStream(socket.getOutputStream());
+      get=new BufferedReader(new InputStreamReader(System.in)); 
+           } catch(Exception ex){System.out.println("Error occoured");}
+
+		}
+    else if(e.getSource() == ip)
+    {
+      host = ip_address.getText();	
+    }
+    else if(e.getSource() == send) 
+    {
+      try{
+       x = data.getText();
+       out.writeUTF(x);
+       text = text +"\nClient :"+  x ;	
+       content.setText(null) ; content.setText(text);	
+      out.flush(); }catch(Exception ex){System.out.println("Error");}	  	
+    }
+    else if(e.getSource() == recieve)
+    {
+      try{
+        String string = (String)in.readUTF();
+        text = text + "\nServer:  " + string + "\n" ; 	
+        content.setText(null) ; content.setText(text);	
+      }catch(Exception ex){System.out.println("Error");}	  	
+    }  	
+  }
+}    
+public class chat
+{
+	public static void main(String args[]) throws Exception
+	{
+		window  x = new window();
+	}
+}
