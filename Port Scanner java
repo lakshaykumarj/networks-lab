@@ -1,0 +1,22 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+class PortScanner
+{
+	public static void main(String args[]) 
+	{
+		System.out.println("Port Scanner\n Enter start and end limits");
+		Scanner sc = new Scanner(System.in);
+		int start  = sc.nextInt();
+		int end = sc.nextInt();
+		System.out.println("\n");
+		for(int i=start; i<=end ; i ++)
+		{
+			try{
+			Socket s = new Socket("localhost",i);
+			System.out.println("Port " + i + "is available for connection\n");
+		    }catch(Exception e){System.out.println("Port" + i + "is closed\n");}
+		}
+		System.out.println("SCAN OVER");
+	}
+}
