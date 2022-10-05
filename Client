@@ -1,0 +1,25 @@
+import java.util.*;
+import java.io.*;
+import java.net.*;
+class Client {
+    public static void main(String[] args) {
+        System.out.println("Client started\nEnter a message");
+        try{
+       Socket socket = new Socket("localhost",1234);
+       DataInputStream in = new DataInputStream(socket.getInputStream());
+       DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+       BufferedReader get=new BufferedReader(new InputStreamReader(System.in)); 
+       String x="";
+	   while(true){
+       x = get.readLine();
+       out.writeUTF(x);
+       if(x.equals("end")) break;
+       String string = (String)in.readUTF();
+       System.out.println("Server: " + string + "\n");
+       }
+       String date = (String)in.readUTF();
+	 System.out.println("\n" + date);
+      out.flush();	  	
+    } catch(Exception e){System.out.println("Error occoured");}
+}
+}
