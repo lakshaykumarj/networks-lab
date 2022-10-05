@@ -1,0 +1,40 @@
+import java.io.*;
+import java.util.*;
+import java.net.*;
+class next_hop_address
+{
+	public static void main(String args[]) throws Exception
+	{
+		System.out.println("Enter Domain name(URL): ");
+		Scanner sc = new Scanner(System.in);
+		String url = sc.nextLine();
+		String x[] ={"tracert","-4",url};
+		Process process = Runtime.getRuntime().exec(x);
+	InputStreamReader ir = new InputStreamReader(process.getInputStream());
+	String s = "";
+		BufferedReader r = new BufferedReader(ir);
+		System.out.println("\n...");
+	String ip = "";	
+		for(int i=0;i<5;i++)
+		{
+		s=r.readLine();
+		System.out.println(s);  
+		if(i==4) ip = s;
+		}
+		String address = ip.substring(ip.length()-15,ip.length()-1);
+		System.out.println("IP ADDRESS OF NEXT HOP ROUTER = " + address);
+	
+	process =Runtime.getRuntime().exec("arp -a");
+	ir = new InputStreamReader(process.getInputStream());
+	r = new BufferedReader(new InputStreamReader(process.getInputStream()));
+	while(((s=r.readLine()) != null))
+		{
+			if(s.contains(address))
+			{
+				String mac = s.substring(23,41);
+				System.out.println("\nMAC ADDRESS IS  "+ mac); 
+			} 
+		}
+
+   }
+}
