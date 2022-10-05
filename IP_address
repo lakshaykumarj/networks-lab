@@ -1,0 +1,19 @@
+import java.net.*;
+import java.util.*;
+import java.io.*;
+class IP
+{
+	public static void main(String args[])
+	{
+		System.out.println("Finding IP address of this system");
+		try{
+		InetAddress ip = InetAddress.getLocalHost();
+		System.out.println(ip +"\n");
+		Scanner sc = new Scanner(System.in);
+			System.out.println("\nEnter the url\t"); 
+      String url = sc.nextLine();
+			InetAddress addr = InetAddress.getByName(new URL(url).getHost());   
+                 System.out.println(addr + "  " + addr.getHostName() + "  Address:  "+ addr.getHostAddress());
+		}catch(Exception e){System.out.println(e);}
+	}
+}
