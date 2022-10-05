@@ -1,0 +1,37 @@
+import java.io.*;
+import java.util.*;
+import java.net.*;
+import java.lang.*;
+class Server_TCP
+{
+	public static void main(String args[]) throws Exception{
+	System.out.println("Server started\n");
+	ServerSocket server  = new ServerSocket(3000);
+	Socket client = server.accept();
+	System.out.println("Client attached....Now obtaining file\n");
+	FileInputStream input = new FileInputStream("C:\\Users\\LAKSHAY KUMAR\\Desktop\\SEM 5 LABS AND STUFF\\NETWORKS\\file.txt");
+	byte[] b = new byte[3000];
+	input.read(b,0,b.length);
+	OutputStream output = client.getOutputStream();
+	output.write(b,0,b.length);
+	}
+}
+
+
+import java.io.*;
+import java.net.*;
+import java.lang.*;
+class Client_TCP
+{
+	public static void main(String args[]) throws Exception{
+	System.out.println("Client Started\n");
+	Socket client  = new Socket("localhost",3000);
+	System.out.println("successfully connected\n");
+	InputStream input = client.getInputStream();
+	FileOutputStream output  = new FileOutputStream("C:\\Users\\LAKSHAY KUMAR\\Desktop\\newFile.txt");
+	byte b[]  =new byte[2002];
+	input.read(b,0,b.length);
+	output.write(b,0,b.length);
+	System.out.println("File done"); 
+	}
+}
