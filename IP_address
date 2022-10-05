@@ -8,7 +8,7 @@ class IP
 		System.out.println("Finding IP address of this system");
 		try{
 		InetAddress ip = InetAddress.getLocalHost();
-		System.out.println(ip +"\n");
+		System.out.println("Machine name  " + ip.getHostName() +  "  with Address"  + ip.getHostAddress() );
 		Scanner sc = new Scanner(System.in);
 			System.out.println("\nEnter the url\t"); 
       String url = sc.nextLine();
