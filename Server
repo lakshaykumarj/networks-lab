@@ -1,0 +1,32 @@
+import java.util.*;
+import java.io.*;
+import java.net.*;
+class Server {
+    public static void main(String[] args) {
+        System.out.println("Server started\n");
+        try{
+        ServerSocket server =new ServerSocket(1234);
+        Socket client = server.accept();
+
+        BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+        InputStream stream = client.getInputStream();
+
+        DataInputStream input_String = new DataInputStream(stream);
+	   DataOutputStream out=new DataOutputStream(client.getOutputStream());	
+       String string=""; 
+       while(true)
+        {
+        string = (String)input_String.readUTF(); 
+        System.out.println("\nClient: "+ string);    
+        if(string.equals("end")) break;
+        else if(string.startsWith("Echo"))  {System.out.println("x"); String text = string.replace("Echo",""); out.writeUTF(text); }	
+	 else{
+	    String text = console.readLine(); 
+        out.writeUTF(text);}
+        }
+	   String x ="Server Date: " + new Date().toString() + "\n";		
+	  out.writeUTF(x);	
+        server.close(); } catch(Exception e){System.out.println("Failed:");}
+    
+}
+}
