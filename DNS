@@ -1,0 +1,30 @@
+import java.net.*;
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import sun.net.dns.ResolverConfiguration;
+class DNS
+{
+public static void main(String args[])
+{
+System.out.println("To obtain local DNS server:");
+try{
+InetAddress t = InetAddress.getLocalHost();
+String y = t.getHostAddress();
+System.out.println(y);
+List z = ResolverConfiguration.open().nameservers();
+                for(int i=0;i<z.size();i++)
+{
+String l = (String)z.get(i);
+InetAddress add = InetAddress.getByName(l);
+String ans = add.getHostName();
+System.out.println("Host address:"+l+"\tHost name: "+ans);
+}
+Scanner sc = new Scanner(System.in);
+String x = sc.nextLine();
+URL url = new URL(x);
+InetAddress[] ipAddress = DNSNameService.lookupAllHostAddr(url.getHost());
+System.out.println("\n"+ ipAddress[0]+"\n" + ipAddress[1]);
+}catch(Exception e){System.out.println(e);}
+}
+}
