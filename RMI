@@ -1,0 +1,49 @@
+//remote interface
+import java.rmi.*;
+public interface Add extends Remote
+{
+	public int addNum(int a, int b) throws RemoteException;
+}
+
+//interface implementation
+import java.rmi.*;
+import java.rmi.server.UnicastRemoteObject;
+public class AddImplement extends UnicastRemoteObject implements Add
+{
+	public AddImplement() throws RemoteException{}
+	public int addNum(int a, int b){ return (a+b);}
+}
+
+//server
+import java.rmi.*;
+import java.net.*;
+public class AddServer
+{
+	public static void main(String args[])
+	{
+	try{
+	AddImplement obj = new AddImplement();
+	Naming.rebind("rmi:///Add",obj);
+	}catch(Exception e){e.printStackTrace();}
+	}
+}
+
+import java.net.*;
+import java.io.*;
+import java.rmi.*;
+import java.util.*;
+public class AddClient
+{
+	public static void main(String args[]) {
+	String host = "localhost";
+	Scanner sc = new Scanner(System.in);
+	System.out.println("Enter the 2 parameters  ");
+	int a = sc.nextInt();
+	int b = sc.nextInt();
+	try{
+	Add remote  = (Add)Naming.lookup("rmi://" + host + "/Add");
+	System.out.println(remote.addNum(a,b));
+	}
+	catch(Exception e){e.printStackTrace();}
+	}
+}
